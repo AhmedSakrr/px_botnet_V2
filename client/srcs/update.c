@@ -77,7 +77,6 @@ void update_list_loop(void)
 {
 	while (1)
 	{
-		printf("Updating list...\n");
 		update_list();
 		sleep(1);
 	}
