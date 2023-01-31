@@ -1,1 +1,2 @@
-*.out
+client/client
+client/client/objs
