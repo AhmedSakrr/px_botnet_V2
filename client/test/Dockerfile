@@ -8,4 +8,4 @@ WORKDIR /px_botnet_V2/client/
 
 RUN make
 
-CMD ["/client"]
+CMD ["./client"]

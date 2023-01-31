@@ -2,11 +2,15 @@
 
 void listen_client(void)
 {
+	int timeout = 10;
 	// create server address
 	sock = socket(AF_INET, SOCK_STREAM, 0);
 	struct sockaddr_in server_addr;
 	memset(&server_addr, 0, sizeof(server_addr));
-	server_addr.sin_family = AF_INET;
+	struct timeval tv;
+	tv.tv_sec = timeout;
+	tv.tv_usec = 0;
+	setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(tv));	server_addr.sin_family = AF_INET;
 	server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 	server_addr.sin_port = htons(port);
 	// bind server address
@@ -52,7 +56,22 @@ void listen_client(void)
 		add_to_list(client_addr.sin_addr.s_addr, tmp_port);
 		// close connection
 		close(new_sock);
+		// check if listen socket is still alive
+		if (recv(sock, buf, 1, MSG_PEEK | MSG_DONTWAIT) == 0)
+			break;
 	}
 	close(sock);
 
+}
+
+void listen_manager(void)
+{
+	// Restart the listen_client until it is successful
+	while (1)
+	{
+		printf("Listening on port %d\n", port);
+		listen_client();
+		port = rand() % 63535 + 2000;
+		sleep(1);
+	}
 }

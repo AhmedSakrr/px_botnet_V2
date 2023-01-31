@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/prctl.h>
+#include <fcntl.h>
 
 #define BUF_SIZE 1024
 
@@ -33,6 +34,7 @@ void print_list(void);
 
 // Listen functions
 void listen_client(void);
+void listen_manager(void);
 
 // Pre list functions
 void add_pre_list(void);

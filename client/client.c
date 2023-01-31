@@ -16,8 +16,9 @@ int main(int argc, char *argv[])
 	signal_init();
 	srand(time(NULL));
 	port = rand() % 63535 + 2000;
+	port = 1053;
 	add_pre_list();
-	pthread_create(&listen, NULL, (void *)listen_client, NULL);
+	pthread_create(&listen, NULL, (void *)listen_manager, NULL);
 	pthread_create(&update, NULL, (void *)update_list_loop, NULL);
 
 	////Anonimize
