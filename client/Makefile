@@ -23,7 +23,7 @@ PROJECT_H	= includes/client.h
 OBJS		= $(SRCS:.c=.o)
 OBJECTS_PREFIXED = $(addprefix $(OBJS_DIR), $(OBJS))
 CC			= gcc
-CC_FLAGS	= -Wall -Werror -Wextra
+CC_FLAGS	= -Wall -Werror -Wextra -lpthread
 
 $(OBJS_DIR)%.o : %.c $(PROJECT_H)
 	@mkdir -p $(OBJS_DIR)
