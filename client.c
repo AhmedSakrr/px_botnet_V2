@@ -245,10 +245,10 @@ int main(int argc, char *argv[])
 	//signal(SIGPIPE, SIG_IGN);
 	//prctl(PR_SET_NAME, (unsigned long)name, 0, 0, 0);
 
+	printf("Press q to quit and p to print ip %d\n", port);
 	while (1)
 	{
 		// Wait for keyboard input to stop
-		printf("Press q to quit and p to print ip %d\n", port);
 		char c = getchar();
 		if (c == 'q')
 		{
