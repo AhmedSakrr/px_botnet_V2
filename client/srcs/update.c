@@ -15,9 +15,9 @@ void update_list(void)
 			server_addr.sin_addr.s_addr = curr->ip;
 			server_addr.sin_port = htons(curr->port);
 			// connect to server
-			if(connect(sock, (struct sockaddr*)&server_addr, sizeof(server_addr)) == -1)
+			if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1)
 			{
-				//printf("connect error %d.%d.%d.%d:%d failed\n", (curr->ip >> 24) & 0xFF, (curr->ip >> 16) & 0xFF, (curr->ip >> 8) & 0xFF, curr->ip & 0xFF, curr->port);
+				// printf("connect error %d.%d.%d.%d:%d failed\n", (curr->ip >> 24) & 0xFF, (curr->ip >> 16) & 0xFF, (curr->ip >> 8) & 0xFF, curr->ip & 0xFF, curr->port);
 				remove_from_list(curr->ip, curr->port);
 				continue;
 			}
@@ -28,22 +28,27 @@ void update_list(void)
 			// receive list
 			char buf[BUF_SIZE];
 			int len = read(sock, buf, BUF_SIZE);
-			if(len == -1)
+			if (len == -1)
 			{
 				remove_from_list(curr->ip, curr->port);
 				continue;
 			}
-			// update list
-			char *ptr = strtok(buf, " ");
-			while(ptr != NULL)
+			while (len > 0)
 			{
-				uint32_t a, b, c, d;
-				int port;
-				sscanf(ptr, "%d.%d.%d.%d:%d", &a, &b, &c, &d, &port);
-				uint32_t ip = (a << 24) | (b << 16) | (c << 8) | d;
-				add_to_list(ip, port);
-				ptr = strtok(NULL, " ");
+				char *ptr = strtok(buf, " ");
+				while (ptr != NULL)
+				{
+					uint32_t a, b, c, d;
+					int port;
+					sscanf(ptr, "%d.%d.%d.%d:%d", &a, &b, &c, &d, &port);
+					uint32_t ip = (a << 24) | (b << 16) | (c << 8) | d;
+					add_to_list(ip, port);
+					ptr = strtok(NULL, " ");
+				}
+				len = read(sock, buf, BUF_SIZE);
 			}
+			// update list
+
 			curr->check = 1;
 		}
 		curr = curr->next;

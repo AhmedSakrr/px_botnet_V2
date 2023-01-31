@@ -56,6 +56,17 @@ int main(int argc, char *argv[])
 		{
 			print_list();
 		}
+		else if (c == 'r')
+		{
+			// Set check to 0
+			Node *tmp = head;
+			while (tmp)
+			{
+				tmp->check = 0;
+				tmp = tmp->next;
+			}
+			printf("Reset check\n");
+		}
 		while (getchar() != '\n');
 	}
 	close(sock);
