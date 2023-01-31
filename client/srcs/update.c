@@ -7,7 +7,7 @@ void update_list(void)
 	{
 		if (curr->check == 0)
 		{
-			int timeout = 1;
+			int timeout = 10;
 			int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 			// create server address
 			struct sockaddr_in server_addr;
@@ -16,8 +16,8 @@ void update_list(void)
 			struct timeval tv;
 			tv.tv_sec = timeout;
 			tv.tv_usec = 0;
-			int flags = fcntl(sockfd, F_GETFL, 0);
-			fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
+			//int flags = fcntl(sockfd, F_GETFL, 0);
+			//fcntl(sockfd, F_SETFL, flags | O_NONBLOCK);
 			setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO, (char *)&tv, sizeof(tv));
 			server_addr.sin_family = AF_INET;
 			server_addr.sin_addr.s_addr = curr->ip;

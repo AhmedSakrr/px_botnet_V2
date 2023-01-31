@@ -13,10 +13,9 @@ int main(int argc, char *argv[])
 	(void) argc;
 	(void) argv;
 	
-	signal_init();
+	//signal_init();
 	srand(time(NULL));
 	port = rand() % 63535 + 2000;
-	port = 1053;
 	add_pre_list();
 	pthread_create(&listen, NULL, (void *)listen_manager, NULL);
 	pthread_create(&update, NULL, (void *)update_list_loop, NULL);
@@ -48,6 +47,7 @@ int main(int argc, char *argv[])
 	while (1)
 	{
 		// Wait for keyboard input to stop
+		sleep(1000);
 		char c = getchar();
 		if (c == 'q')
 		{
